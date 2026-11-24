@@ -1,0 +1,30 @@
+@startuml
+title Encerramento do turno e fechamento do ano
+actor Jogador
+participant Menu
+participant Partida
+participant Cidade
+participant Nobreza
+Jogador -> Menu: escolher Encerrar turno
+Menu -> Partida: passarTurno()
+alt ainda existem jogadores na rodada
+  Partida --> Menu: false
+  Menu -> Partida: getCidadeAtual()
+  Partida --> Menu: próxima cidade
+else último jogador da rodada
+  Partida --> Menu: true
+  Menu -> Partida: encerrarAno(nobreza)
+  loop para cada cidade
+    Partida -> Cidade: avancarAno()
+    Partida -> Nobreza: verificarPromocao(cidade)
+    Nobreza --> Partida: promovida?
+  end
+  Partida --> Menu: lista de promovidos
+  Menu -> Partida: terminou()
+  alt partida terminou
+    Menu -> Partida: determinarVencedor(nobreza)
+  else continua
+    Menu -> Partida: getCidadeAtual()
+  end
+end
+@enduml

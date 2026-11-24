@@ -1,0 +1,31 @@
+@startuml
+skinparam classAttributeIconSize 0
+title Bolonha e Milano — Diagrama de Classes
+class Main { +main(args: String[]): void }
+class Menu { -teclado: Scanner -emExecucao: boolean -partida: Partida -cidade: Cidade +executar(): void }
+class Jogador { -TITULOS: String[] {static} -nome: String -nivelTitulo: int +promover(): boolean +ehMonarca(): boolean }
+class Cidade { -nome: String -anoAtual: int -dono: Jogador -florins: int -terras: int -graos: int -servos: int -soldados: int -construcoes: int -colheitaFeita: boolean -impostosArrecadados: boolean +avancarAno(): void }
+class Partida { -cidades: List<Cidade> -indiceAtual: int +adicionarCidade(c): boolean +passarTurno(): boolean +encerrarAno(n): List<Cidade> +terminou(): boolean }
+class Mercado { +comprarGraos(c,q): boolean +venderGraos(c,q): boolean +comprarTerras(c,q): boolean +venderTerras(c,q): boolean }
+class Agricultura { +processarColheita(c): int +distribuirAlimentos(c,p): boolean }
+class Governo { +arrecadarImpostos(c): int +definirTaxaImposto(c,t): boolean +definirJustica(c,n): boolean }
+class Construcoes { +recrutarSoldados(c,q): boolean +construir(c,q): boolean }
+class Nobreza { +calcularPrestigio(c): int +verificarPromocao(c): boolean }
+class Testes { +main(args): void }
+Main ..> Menu
+Menu --> Partida
+Menu ..> Mercado
+Menu ..> Agricultura
+Menu ..> Governo
+Menu ..> Construcoes
+Menu ..> Nobreza
+Partida "1" o-- "1..4" Cidade
+Cidade --> Jogador
+Mercado ..> Cidade
+Agricultura ..> Cidade
+Governo ..> Cidade
+Construcoes ..> Cidade
+Nobreza ..> Cidade
+Testes ..> Cidade
+Testes ..> Partida
+@enduml
